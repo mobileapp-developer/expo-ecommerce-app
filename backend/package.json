@@ -24,6 +24,7 @@
     "es-object-atoms": "^1.1.1",
     "escape-html": "^1.0.3",
     "etag": "^1.8.1",
+    "expo-ecommerce": "file:..",
     "express": "^5.2.1",
     "finalhandler": "^2.1.1",
     "forwarded": "^0.2.0",
@@ -71,7 +72,6 @@
     "vary": "^1.1.2",
     "wrappy": "^1.0.2"
   },
-  "devDependencies": {},
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js"
