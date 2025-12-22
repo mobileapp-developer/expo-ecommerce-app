@@ -39,6 +39,7 @@
     "http-errors": "^2.0.1",
     "iconv-lite": "^0.7.1",
     "inherits": "^2.0.4",
+    "inngest": "^3.48.1",
     "ipaddr.js": "^1.9.1",
     "is-promise": "^4.0.0",
     "math-intrinsics": "^1.1.0",
