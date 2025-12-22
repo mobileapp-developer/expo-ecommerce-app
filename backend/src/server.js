@@ -25,16 +25,15 @@ app.get("/api/health", (req, res) => {
 if (ENV.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../admin/dist")))
 
-    app.get("/{*any}", (req, res) => {
+    app.get("*", (req, res) => {
         res.sendFile(path.join(__dirname, "../admin/", "dist", "index.html"));
     });
 }
 
 const startServer = async () => {
     await connectDB();
-    app.listen(ENV.PORT, () => {
+    app.listen(ENV.PORT || 3000, () => {
         console.log("✅ Server is up and running")
-        connectDB();
     });
 };
 
