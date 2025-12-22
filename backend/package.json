@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "dependencies": {
+    "@clerk/express": "^1.7.60",
     "accepts": "^2.0.0",
     "body-parser": "^2.2.1",
     "bytes": "^3.1.2",
