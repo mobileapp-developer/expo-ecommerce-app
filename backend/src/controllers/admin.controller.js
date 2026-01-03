@@ -69,7 +69,7 @@ export async function updateProduct(req, res) {
 
         if (name) product.name = name;
         if (description) product.description = description;
-        if (price) product.price = parseFloat(price);
+        if (price !== undefined) product.price = parseFloat(price);
         if (stock !== undefined) product.stock = parseInt(stock);
         if (category) product.category = category;
 
@@ -87,9 +87,9 @@ export async function updateProduct(req, res) {
             const uploadResults = await Promise.all(uploadPromises);
             product.images = uploadResults.map((result) => result.secure_url);
 
-            await product.save();
-            res.status(200).json(product);
         }
+        await product.save();
+        res.status(200).json(product);
 
     } catch (error) {
         console.error('Error updating products: ', error);
@@ -128,7 +128,7 @@ export async function updateOrderStatus(req, res) {
 
         order.status = status;
 
-        if (status === 'shipped' && order.shippedAt) {
+        if (status === 'shipped' && !order.shippedAt) {
             order.shippedAt = new Date();
         }
 
