@@ -6,6 +6,10 @@ export async function addAddress(req, res) {
 
         const user = req.user;
 
+        if (!fullName || !streetAddress || !city || !state || !zipCode) {
+            return res.status(400).json({message: 'Missing required address fields'});
+        }
+
         if (isDefault) {
             user.addresses.forEach((address) => {
                 address.isDefault = false;
@@ -58,7 +62,7 @@ export async function updateAddress(req, res) {
             return res.status(404).json({error: 'Address not found'});
         }
 
-        if (isDeafault) {
+        if (isDefaault) {
             user.address.forEach((address) => {
                 address.isDefault = false
             });
@@ -142,7 +146,7 @@ export async function removeFromWishlist(req, res) {
 
 export async function getWishlist(req, res) {
     try {
-        const user = req.user;
+        const user = await User.findById(req.user._id).populate('wishlist');
         res.status(200).json({wishlist: user.wishlist});
 
     } catch (error) {
