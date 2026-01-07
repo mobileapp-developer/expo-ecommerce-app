@@ -62,7 +62,7 @@ export async function updateAddress(req, res) {
             return res.status(404).json({error: 'Address not found'});
         }
 
-        if (isDefaault) {
+        if (isDefault) {
             user.address.forEach((address) => {
                 address.isDefault = false
             });
