@@ -26,7 +26,7 @@ export async function createOrder(req, res) {
         }
 
         /* create order */
-        const order = Order.create({
+        const order = await Order.create({
             user: user._id,
             clerkId: user.clerkId,
             orderItems,
@@ -37,7 +37,7 @@ export async function createOrder(req, res) {
 
         /* update product stock */
         for (const item of orderItems) {
-            await Order.findByIdAndUpdate(item.product._id, {
+            await Product.findByIdAndUpdate(item.product._id, {
                 $inc: {stock: -item.quantity},
             });
         }
