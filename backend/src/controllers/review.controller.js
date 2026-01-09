@@ -6,6 +6,10 @@ export async function createReview(req, res) {
     try {
         const {productId, orderId, rating} = req.body;
 
+        if (!productId || !orderId) {
+            return res.status(400).json({message: 'Product ID and Order ID are required'});
+        }
+
         if (!rating || rating < 1 || rating > 5) {
             return res.status(400).json({message: 'Invalid rating. Rating must be between 1 and 5'});
         }
@@ -53,7 +57,7 @@ export async function createReview(req, res) {
 
         if (!updatedProduct) {
             await Review.findByIdAndDelete(review._id);
-            return res.status(404).json({error: "Product not found"});
+            return res.status(404).json({message: "Product not found"});
         }
 
         res.status(201).json({message: "Review submitted successfully", review});
