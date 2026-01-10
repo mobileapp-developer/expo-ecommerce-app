@@ -29,19 +29,21 @@ export async function addToCart(req, res) {
 
         const product = await Product.findById(productId);
         if (!product) {
-            res.status(404).json({error: 'Product not found'});
+            return res.status(404).json({error: 'Product not found'});
         }
 
         if (product.stock < quantity) {
-            res.ststus(400).json({error: 'Insufficient stock'});
+            return res.status(400).json({error: 'Insufficient stock'});
         }
 
         let cart = await Cart.findOne({clerkId: req.user.clerkId});
 
         if (!cart) {
+            const user = req.user;
+
             cart = await Cart.create({
-                user: req.user._id,
-                clerkId: req.user.clerkId,
+                user: user._id,
+                clerkId: user.clerkId,
                 items: []
             });
         }
@@ -83,7 +85,7 @@ export async function updateCartItem(req, res) {
             return res.status(404).json({error: 'Cart not found'});
         }
 
-        const itemIndex = cart.item.findIndex((item) => item.product.toString() === productId);
+        const itemIndex = cart.items.findIndex((item) => item.product.toString() === productId);
 
         if (itemIndex === -1) {
             return res.status(404).json({error: 'Item not found in cart'});
@@ -101,7 +103,7 @@ export async function updateCartItem(req, res) {
 
         cart.items[itemIndex].quantity = quantity;
 
-        await cat.save();
+        await cart.save();
         res.status(200).json({message: 'Cart updated successfully', cart});
 
     } catch (error) {
@@ -120,7 +122,7 @@ export async function removeFromCart(req, res) {
             return res.status(404).json({error: 'Cart not found'});
         }
 
-        cart.item = cart.item.filter((item) => item.product.toString() !== productId);
+        cart.items = cart.items.filter((item) => item.product.toString() !== productId);
 
         await cart.save();
         res.status(200).json({message: 'Item removed from cart', cart});
@@ -136,7 +138,7 @@ export async function clearCart(req, res) {
         const cart = await Cart.findOne({clerkId: req.user.clerkId});
 
         if (!cart) {
-            return res.status(404). json({error: 'Cart not found'});
+            return res.status(404).json({error: 'Cart not found'});
         }
 
         cart.items = [];
